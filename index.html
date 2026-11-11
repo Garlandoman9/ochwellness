@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Och Wellness Redesign</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&family=Oswald:wght@400;500;600&family=Noto+Serif+Tibetan:wght@500;700&display=swap">
+<style>
+[hidden]{display:none!important}img{max-width:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}
+/* Layout: editorial apothecary. Cream ground, burgundy + gold from the current site, logo teal for accents;
+   numbered formula panels with oversized letters and ripple hovers borrowed from the reference. */
+:root{
+  --cream:oklch(97.5% .015 80);
+  --cream-deep:oklch(94% .025 75);
+  --ink:oklch(18% .02 30);
+  --ink-soft:oklch(45% .03 30);
+  --burgundy:oklch(42% .16 25);
+  --burgundy-deep:oklch(32% .14 24);
+  --gold:oklch(78% .13 80);
+  --gold-light:oklch(88% .09 85);
+  --teal:oklch(38% .07 220);
+  --line:oklch(88% .02 60);
+  --card:oklch(100% 0 0);
+  --panel-ink:oklch(18% .02 30);   /* the dark frame around product panels */
+  --on-dark:oklch(97.5% .015 80);
+  --bg:var(--cream);
+  --fg:var(--ink);
+  --display:"Cormorant Garamond","Playfair Display",Georgia,serif;
+  --body:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --label:"Oswald","Arial Narrow",Impact,sans-serif;
+  --tib:"Noto Serif Tibetan",serif;
+  --gutter:max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r:max(16px, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:oklch(16% .03 25); --fg:oklch(95% .015 80); --ink-soft:oklch(72% .03 60);
+  --cream-deep:oklch(22% .04 25); --card:oklch(21% .035 25); --line:oklch(32% .04 25);
+  --panel-ink:oklch(10% .02 25); --burgundy:oklch(62% .15 25); --teal:oklch(70% .08 210);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:oklch(16% .03 25); --fg:oklch(95% .015 80); --ink-soft:oklch(72% .03 60);
+  --cream-deep:oklch(22% .04 25); --card:oklch(21% .035 25); --line:oklch(32% .04 25);
+  --panel-ink:oklch(10% .02 25); --burgundy:oklch(62% .15 25); --teal:oklch(70% .08 210);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.02;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1240px;margin-inline:auto;padding-left:var(--gutter);padding-right:var(--gutter-r)}
+.eyebrow{font-family:var(--label);text-transform:uppercase;letter-spacing:.18em;font-size:12px;color:var(--burgundy);font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:.6em;font-family:var(--label);text-transform:uppercase;letter-spacing:.14em;font-size:13px;font-weight:500;padding:14px 22px;border:1.5px solid currentColor;background:transparent;text-decoration:none;transition:background .25s,color .25s,border-color .25s}
+.btn .chev{font-size:10px;transition:transform .25s}
+.btn:hover .chev{transform:translateX(4px)}
+.btn-solid{background:var(--burgundy);border-color:var(--burgundy);color:var(--on-dark)}
+.btn-solid:hover{background:var(--burgundy-deep);border-color:var(--burgundy-deep)}
+.btn-gold{background:var(--gold);border-color:var(--gold);color:oklch(18% .02 30)}
+.btn-gold:hover{background:var(--gold-light);border-color:var(--gold-light)}
+.btn-ghost-light{color:var(--on-dark);border-color:oklch(97.5% .015 80 / .5)}
+.btn-ghost-light:hover{background:var(--on-dark);color:oklch(18% .02 30)}
+.btn-line:hover{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+
+/* review banner */
+.review{background:var(--teal);color:var(--on-dark);font-size:13px;padding-block:8px;text-align:center}
+.review b{font-weight:600}
+:root[data-theme="dark"] .review{color:oklch(16% .03 25)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .review{color:oklch(16% .03 25)}}
+
+/* header */
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in oklch,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:24px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{width:34px;height:auto}
+.brand span{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:.02em}
+.brand small{display:block;font-family:var(--label);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);margin-top:-4px}
+.links{display:flex;gap:26px;margin-left:auto;list-style:none;padding:0;margin-block:0}
+.links a{font-family:var(--label);text-transform:uppercase;letter-spacing:.14em;font-size:12px;text-decoration:none;position:relative;padding-block:6px}
+.links a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1.5px;background:var(--burgundy);transition:right .3s}
+.links a:hover::after{right:0}
+.cart-btn{display:flex;align-items:center;gap:8px;border:1.5px solid var(--fg);background:none;padding:8px 14px;font-family:var(--label);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.cart-btn:hover{background:var(--fg);color:var(--bg)}
+.cart-count{min-width:20px;height:20px;border-radius:10px;background:var(--burgundy);color:var(--on-dark);font-size:11px;display:inline-grid;place-items:center;padding-inline:5px}
+.menu-btn{display:none;background:none;border:0;font-family:var(--label);letter-spacing:.14em;text-transform:uppercase;font-size:12px}
+@media (max-width:900px){
+  .links{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;background:var(--bg);border-bottom:1px solid var(--line);padding:8px var(--gutter-r) 16px var(--gutter)}
+  .links.open{display:flex}
+  .links a{display:block;padding-block:12px;font-size:14px}
+  .menu-btn{display:block;margin-left:auto}
+}
+
+/* hero */
+.hero{position:relative;background:oklch(14% .02 30);color:var(--on-dark);overflow:hidden;isolation:isolate}
+.hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,oklch(14% .02 30 / .88) 0%,oklch(14% .02 30 / .55) 55%,oklch(14% .02 30 / .15) 100%)}
+.hero-in{display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,56px);padding-block:clamp(72px,11vw,140px) clamp(56px,8vw,100px);align-items:end}
+.vert{writing-mode:vertical-rl;font-family:var(--label);text-transform:uppercase;letter-spacing:.3em;font-size:12px;color:var(--gold);border-left:1px solid oklch(78% .13 80 / .5);padding-left:12px;align-self:stretch;text-align:end}
+.hero h1{font-size:clamp(48px,9vw,128px);font-weight:500;letter-spacing:-.01em}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero h1 .row{display:block;overflow:hidden}
+.hero h1 .row>span{display:inline-block;animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero h1 .row:nth-child(2)>span{animation-delay:.12s}
+@keyframes rise{from{transform:translateY(40%)}to{transform:none}}
+.hero p.sub{max-width:520px;margin-top:22px;font-size:clamp(16px,1.6vw,19px);color:oklch(97.5% .015 80 / .85);font-weight:300}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:48px;font-family:var(--label);text-transform:uppercase;letter-spacing:.16em;font-size:11px;color:oklch(97.5% .015 80 / .7)}
+.hero .meta b{color:var(--gold);font-weight:500;margin-right:6px}
+
+/* marquee */
+.marquee{background:var(--burgundy-deep);color:var(--gold-light);overflow:hidden;border-block:1px solid oklch(78% .13 80 / .35)}
+.marquee-track{display:flex;width:max-content;animation:scroll 38s linear infinite}
+.marquee span{font-family:var(--display);font-style:italic;font-size:22px;padding:12px 28px;white-space:nowrap}
+.marquee span::after{content:"◆";font-style:normal;font-size:10px;color:var(--gold);margin-left:56px;vertical-align:middle}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+section{padding-block:clamp(72px,9vw,120px)}
+.sec-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:20px 40px;margin-bottom:48px}
+.sec-head h2{font-size:clamp(38px,5.5vw,72px)}
+.sec-head h2 em{font-style:italic;color:var(--burgundy)}
+.sec-head p{max-width:420px;color:var(--ink-soft)}
+
+/* path */
+.path{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.path-card{text-decoration:none;position:relative;overflow:hidden;border:1.5px solid var(--fg);padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;gap:16px;min-height:340px;background:var(--card);transition:color .35s}
+.path-card::before{content:"";position:absolute;inset:0;z-index:0;background:var(--burgundy);transform:translateY(101%);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.path-card>*{position:relative;z-index:1}
+.path-card:hover{color:var(--on-dark)}
+.path-card:hover::before{transform:none}
+.path-card:hover .eyebrow{color:var(--gold-light)}
+.path-card .big{position:absolute;right:-12px;bottom:-60px;font-family:var(--display);font-weight:700;font-size:280px;line-height:1;opacity:.07;z-index:0;pointer-events:none}
+.path-card h3{font-size:clamp(30px,3.4vw,44px)}
+.path-card p{max-width:400px;opacity:.85}
+.path-card .btn{margin-top:auto;align-self:flex-start}
+.path-card:hover .btn{border-color:var(--gold);background:var(--gold);color:oklch(18% .02 30)}
+@media (max-width:760px){.path{grid-template-columns:1fr}}
+
+/* formulas, reference-style panels */
+.formulas-sec{background:var(--panel-ink);color:var(--on-dark)}
+.formulas-sec .sec-head p{color:oklch(97.5% .015 80 / .7)}
+.formulas-sec .sec-head h2 em{color:var(--gold)}
+.formulas-sec .eyebrow{color:var(--gold)}
+.grid6{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+@media (max-width:1150px){.grid6{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:620px){.grid6{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
+.f-card{position:relative;background:oklch(97.5% .015 80);color:oklch(18% .02 30);display:flex;flex-direction:column;overflow:hidden;cursor:pointer;text-align:center;border:0;padding:0;isolation:isolate}
+.f-top{position:relative;height:230px;overflow:hidden}
+.f-rings{position:absolute;inset:-30%;z-index:-1;opacity:0;transition:opacity .4s;background:repeating-radial-gradient(circle at 50% 46%,transparent 0 9px,oklch(18% .02 30 / .85) 9px 11px)}
+.f-card:hover .f-rings,.f-card:focus-visible .f-rings{opacity:1;animation:ripple 2.4s linear infinite}
+@keyframes ripple{from{transform:scale(1)}to{transform:scale(1.12)}}
+.f-letter{position:absolute;font-family:var(--display);font-weight:700;font-size:210px;line-height:.8;top:22px;right:-14px;color:var(--el);z-index:-1;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.f-card:hover .f-letter{transform:translateY(-8px) scale(1.04)}
+.f-no{position:absolute;top:14px;left:10px;display:flex;gap:4px;writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--label);font-weight:600;line-height:1}
+.f-no b{font-size:22px;letter-spacing:.02em}
+.f-no i{font-style:normal;font-size:9px;letter-spacing:.2em;border-left:1.5px solid currentColor;padding-left:3px}
+.f-jar{position:absolute;left:50%;bottom:6px;width:52%;transform:translateX(-50%);transition:transform .5s cubic-bezier(.2,.7,.2,1);filter:drop-shadow(0 10px 12px oklch(18% .02 30 / .25))}
+.f-card:hover .f-jar{transform:translateX(-50%) translateY(-10px) rotate(-3deg)}
+.f-body{padding:14px 12px 16px;display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;background:oklch(97.5% .015 80)}
+.f-tag{font-family:var(--label);font-size:11px;letter-spacing:.08em}
+.f-name{font-family:var(--display);font-weight:700;font-size:clamp(24px,2.3vw,32px);letter-spacing:.08em;line-height:1}
+.f-tib{font-family:var(--tib);font-size:15px;color:oklch(42% .16 25);line-height:1.6}
+.f-line{font-size:12.5px;font-weight:600;line-height:1.35;min-height:2.7em}
+.f-more{margin-top:auto;width:100%;font-family:var(--label);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border:1.5px solid oklch(18% .02 30);padding:9px 6px;transition:background .25s,color .25s}
+.f-card:hover .f-more{background:oklch(18% .02 30);color:oklch(97.5% .015 80)}
+.ph{display:inline-block;font-family:var(--label);font-size:9px;letter-spacing:.14em;text-transform:uppercase;background:var(--gold-light);color:oklch(32% .14 24);padding:2px 6px;vertical-align:middle}
+.formulas-foot{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;margin-top:36px}
+.formulas-foot p{font-size:13px;color:oklch(97.5% .015 80 / .65);max-width:620px}
+
+/* trust strip */
+.trust{background:var(--cream-deep);padding-block:0}
+.trust-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.trust-item{padding:36px 24px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.trust-item:first-child{border-left:0}
+.trust-item b{font-family:var(--display);font-size:clamp(36px,4vw,54px);font-weight:600;line-height:1;color:var(--burgundy)}
+.trust-item span{font-family:var(--label);text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--ink-soft)}
+@media (max-width:760px){.trust-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.trust-item:nth-child(3){border-left:0}.trust-item{border-top:1px solid var(--line)}}
+
+/* story */
+.story{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(32px,6vw,90px);align-items:center}
+.story-img{position:relative;aspect-ratio:2/3;max-width:100%;overflow:hidden;background:var(--cream-deep)}
+.story-img img{width:100%;height:115%;object-fit:cover;display:block;will-change:transform}
+.story-img .stamp{position:absolute;left:16px;bottom:16px;background:var(--bg);color:var(--fg);padding:10px 14px;font-family:var(--label);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.story h2{font-size:clamp(40px,5vw,68px);margin-block:14px 26px}
+.story h2 em{color:var(--burgundy)}
+.story .copy{display:flex;flex-direction:column;gap:16px;max-width:560px;color:var(--ink-soft);font-size:17px}
+.story blockquote{margin:12px 0 0;padding-left:20px;border-left:2px solid var(--gold);font-family:var(--display);font-style:italic;font-size:26px;line-height:1.25;color:var(--fg)}
+.story .btn{margin-top:28px}
+@media (max-width:820px){.story{grid-template-columns:1fr}.story-img{max-width:440px}}
+
+/* goal */
+.goal{background:var(--burgundy-deep);color:var(--on-dark);text-align:center;overflow:hidden}
+.goal .eyebrow{color:var(--gold)}
+.goal h2{font-size:clamp(36px,5vw,64px);max-width:900px;margin:14px auto 0}
+.words{display:flex;justify-content:center;flex-wrap:wrap;gap:4px clamp(16px,4vw,56px);margin-block:48px 20px}
+.word{background:none;border:0;font-family:var(--display);font-weight:600;font-style:italic;font-size:clamp(46px,8vw,112px);line-height:1;color:transparent;-webkit-text-stroke:1.2px var(--gold);padding:0;transition:color .3s}
+.word.on,.word:hover{color:var(--gold)}
+.word-desc{min-height:3.2em;max-width:560px;margin:0 auto 36px;color:oklch(97.5% .015 80 / .85);font-size:17px}
+.goal .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+
+/* footer */
+footer{background:var(--panel-ink);color:oklch(97.5% .015 80 / .8);padding-block:72px 32px;font-size:14px}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(2,minmax(0,1fr)) minmax(0,1.5fr);gap:40px}
+footer h4{font-family:var(--label);text-transform:uppercase;letter-spacing:.18em;font-size:12px;color:var(--gold);margin:0 0 16px;font-weight:500}
+footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+footer a{text-decoration:none}
+footer a:hover{color:var(--gold-light)}
+footer .brand span{color:var(--on-dark)}
+footer .tagline{margin-top:16px;max-width:280px}
+.news{display:flex;border:1px solid oklch(97.5% .015 80 / .25)}
+.news input{flex:1;min-width:0;background:transparent;border:0;padding:13px 14px;color:var(--on-dark);font:inherit}
+.news input::placeholder{color:oklch(97.5% .015 80 / .5)}
+.news button{border:0;background:var(--gold);color:oklch(18% .02 30);padding-inline:16px;font-family:var(--label);letter-spacing:.14em;text-transform:uppercase;font-size:12px}
+.news-msg{font-size:13px;margin-top:10px;color:var(--gold-light);min-height:1.4em}
+.legal{border-top:1px solid oklch(97.5% .015 80 / .15);margin-top:56px;padding-top:24px;display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;font-size:12px;color:oklch(97.5% .015 80 / .55)}
+.legal p{max-width:720px}
+@media (max-width:900px){.foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.foot-grid{grid-template-columns:1fr}}
+
+/* product detail */
+#detail{background:var(--panel-ink);padding-block:clamp(28px,4vw,56px) clamp(56px,7vw,96px)}
+.back{background:none;border:0;color:var(--gold);font-family:var(--label);letter-spacing:.16em;text-transform:uppercase;font-size:12px;padding:6px 0;margin-bottom:22px}
+.back:hover{color:var(--gold-light)}
+.d-frame{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);background:oklch(97.5% .015 80);color:oklch(18% .02 30);border:10px solid oklch(97.5% .015 80)}
+.d-copy{padding:clamp(24px,4vw,56px);display:flex;flex-direction:column;gap:18px;background:var(--card);color:var(--fg)}
+.d-frame{background:var(--panel-ink);gap:10px;border:0}
+.d-tag{font-family:var(--label);font-size:16px;letter-spacing:.06em}
+.d-name{font-family:var(--display);font-weight:700;font-size:clamp(56px,7vw,96px);letter-spacing:.08em;line-height:.9}
+.d-tib{font-family:var(--tib);font-size:24px;color:var(--burgundy)}
+.d-lead{font-family:var(--display);font-size:clamp(24px,2.4vw,30px);font-weight:600;line-height:1.2}
+.d-desc{color:var(--ink-soft)}
+.d-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line)}
+.d-facts div{padding:14px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.d-facts div:nth-child(odd){padding-right:14px}
+.d-facts dt{font-family:var(--label);text-transform:uppercase;letter-spacing:.14em;font-size:11px;color:var(--ink-soft)}
+.d-facts dd{margin:0;font-weight:500;font-variant-numeric:tabular-nums}
+.d-ing{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.d-ing li{border:1px solid var(--line);padding:6px 12px;font-size:13px}
+.buy{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-top:6px}
+.qty{display:flex;border:1.5px solid var(--fg)}
+.qty button{background:none;border:0;width:42px;font-size:18px}
+.qty output{min-width:34px;display:grid;place-items:center;font-variant-numeric:tabular-nums;font-weight:600}
+.price{font-family:var(--display);font-size:34px;font-weight:600;font-variant-numeric:tabular-nums}
+.d-visual{position:relative;background:oklch(97.5% .015 80);overflow:hidden;min-height:520px;isolation:isolate}
+.d-visual .f-rings{opacity:.9;inset:-20%;animation:ripple 3s linear infinite;background:repeating-radial-gradient(circle at 45% 55%,transparent 0 16px,oklch(18% .02 30 / .9) 16px 19px);-webkit-mask:radial-gradient(circle at 45% 55%,#000 0 34%,transparent 34.2%);mask:radial-gradient(circle at 45% 55%,#000 0 34%,transparent 34.2%)}
+.d-visual .f-letter{font-size:clamp(300px,40vw,560px);top:-20px;right:-30px}
+.d-visual .f-no{top:28px;left:24px}
+.d-visual .f-no b{font-size:46px}
+.d-visual .f-no i{font-size:13px}
+.d-visual .f-jar{width:min(46%,300px);bottom:40px;left:52%}
+.d-visual:hover .f-jar{transform:translateX(-50%) translateY(-10px) rotate(-3deg)}
+.others{margin-top:40px}
+.others h3{color:var(--on-dark);font-size:30px;margin-bottom:18px}
+@media (max-width:860px){.d-frame{grid-template-columns:1fr}.d-visual{order:-1;min-height:420px}}
+
+/* cart drawer */
+.scrim{position:fixed;inset:0;background:oklch(14% .02 30 / .5);z-index:80;opacity:0;pointer-events:none;transition:opacity .3s}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--bg);z-index:90;transform:translateX(100%);transition:transform .4s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;padding:calc(20px + env(safe-area-inset-top,0px)) max(22px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) 22px;border-left:1px solid var(--line)}
+.drawer.open{transform:none}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.drawer-head h3{font-size:32px}
+.x{background:none;border:0;font-size:26px;line-height:1;padding:4px 8px}
+.items{flex:1;overflow:auto;display:flex;flex-direction:column}
+.item{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center;padding-block:16px;border-bottom:1px solid var(--line)}
+.item svg{width:56px;height:auto}
+.item b{font-family:var(--display);font-size:22px;letter-spacing:.06em}
+.item small{display:block;color:var(--ink-soft);font-size:12px}
+.item .qty{border-width:1px}
+.item .qty button{width:30px;font-size:15px}
+.empty{margin:auto;text-align:center;color:var(--ink-soft);display:flex;flex-direction:column;gap:14px;align-items:center}
+.empty b{font-family:var(--display);font-size:28px;color:var(--fg)}
+.drawer-foot{padding-top:16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:12px}
+.sum{display:flex;justify-content:space-between;font-family:var(--display);font-size:24px;font-weight:600;font-variant-numeric:tabular-nums}
+.drawer-foot .btn{justify-content:center}
+.drawer-foot p{font-size:12px;color:var(--ink-soft);text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,140%);background:var(--fg);color:var(--bg);padding:12px 20px;font-size:14px;z-index:100;transition:transform .35s;max-width:calc(100% - 32px)}
+.toast.show{transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="review"><div class="wrap"><b>Review draft.</b> Formula names, descriptions and prices marked <span class="ph">Placeholder</span> are samples for you to replace.</div></div>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="#top" data-home>
+      <img src="logo.png" alt="Och Wellness logo">
+      <span>Och<small>Wellness Co.</small></span>
+    </a>
+    <ul class="links" id="links">
+      <li><a href="#story" data-home>Story</a></li>
+      <li><a href="#trust" data-home>Science</a></li>
+      <li><a href="#goal" data-home>Mission</a></li>
+      <li><a href="#path" data-home>Protocol</a></li>
+      <li><a href="#formulas" data-home>Shop</a></li>
+      <li><a href="#footer" data-home>Contact</a></li>
+    </ul>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="links">Menu</button>
+    <button class="cart-btn" id="cartBtn" aria-label="Open cart">Cart <span class="cart-count" id="cartCount">0</span></button>
+  </div>
+</header>
+
+<main id="home">
+  <div class="hero" id="top">
+    <img class="poster" src="hero-poster.jpg" alt="">
+    <video autoplay muted loop playsinline poster="hero-poster.jpg" aria-hidden="true"><source src="hero.mp4" type="video/mp4"></video>
+    <div class="wrap hero-in">
+      <div class="vert">Est. four centuries · Mongolia &amp; Tibet</div>
+      <div>
+        <p class="eyebrow" style="color:var(--gold)">Och Wellness Co.</p>
+        <h1><span class="row"><span>Modern Apothecary,</span></span><span class="row"><span><em>Ancient Roots.</em></span></span></h1>
+        <p class="sub">Authentic Mongolian &amp; Tibetan 5-Element formulas, refined by four centuries of practice.</p>
+        <div class="ctas">
+          <a class="btn btn-gold" href="#formulas"><span class="chev">▶</span> Shop the Collection</a>
+          <a class="btn btn-ghost-light" href="#story"><span class="chev">▶</span> Discover Our Story</a>
+        </div>
+        <div class="meta"><span><b>06</b>Signature formulas</span><span><b>05</b>Elements</span><span><b>3rd</b>Party lab tested</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
+
+  <section id="path">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><p class="eyebrow">Find your path</p><h2>Not sure where<br>to <em>start?</em></h2></div>
+        <p>Two free ways to begin. No cost. No commitment. Just clarity.</p>
+      </div>
+      <div class="path">
+        <a class="path-card" href="#formulas">
+          <span class="big" aria-hidden="true">?</span>
+          <p class="eyebrow">Free · 3 minutes</p>
+          <h3>The Och Discovery Assessment</h3>
+          <p>Answer a few questions about how you feel today. We recommend the formulas that best fit where you are now.</p>
+          <span class="btn btn-line"><span class="chev">▶</span> Take the Assessment</span>
+        </a>
+        <a class="path-card" href="#formulas">
+          <span class="big" aria-hidden="true">6</span>
+          <p class="eyebrow">Free with every order</p>
+          <h3>The Och Protocol</h3>
+          <p>A short guide to six foundational lifestyle habits. It arrives with your order confirmation so the herbs have a steady routine to work within.</p>
+          <span class="btn btn-line"><span class="chev">▶</span> See the Protocol</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="formulas-sec" id="formulas">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><p class="eyebrow">Our formulas</p><h2>Six signature <em>formulas.</em></h2></div>
+        <p>One for each of the five elements, plus a formula that brings them into balance. Hover to look closer; tap to see details.</p>
+      </div>
+      <div class="grid6" id="grid"></div>
+      <div class="formulas-foot">
+        <p>Tibetan herbs sourced overseas. Every batch is checked by third-party lab testing for purity and potency.</p>
+        <a class="btn btn-gold" href="#formulas" id="viewAll"><span class="chev">▶</span> View All Formulas</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust" id="trust" aria-label="Why trust Och">
+    <div class="wrap trust-grid">
+      <div class="trust-item"><b>400</b><span>Years of practice</span></div>
+      <div class="trust-item"><b>5</b><span>Element system</span></div>
+      <div class="trust-item"><b>3rd</b><span>Party lab tested</span></div>
+      <div class="trust-item"><b>100%</b><span>Herbs sourced overseas</span></div>
+    </div>
+  </section>
+
+  <section id="story">
+    <div class="wrap story">
+      <div class="story-img"><img id="parallax" src="capsule.jpg" alt="A hand holding a single Och capsule"><span class="stamp">The Return</span></div>
+      <div>
+        <p class="eyebrow">Why Och Wellness, why now</p>
+        <h2>Herbs refined long before <em>the noise began.</em></h2>
+        <div class="copy">
+          <p>For four centuries our family kept the Mongolian and Tibetan practice of the five elements: earth, water, fire, wind and space. Each formula restores the balance between them.</p>
+          <p>Och Wellness brings that knowledge into a modern apothecary, with the same herbs, the same ratios and today's testing standards.</p>
+          <blockquote>Four centuries of family wisdom, in one capsule.</blockquote>
+        </div>
+        <a class="btn btn-solid" href="#story"><span class="chev">▶</span> Read Our Story</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="goal" id="goal">
+    <div class="wrap">
+      <p class="eyebrow">The real goal</p>
+      <h2>Health is about more than how you look.</h2>
+      <div class="words" role="tablist" aria-label="What health feels like">
+        <button class="word on" role="tab" aria-selected="true" data-d="Steady energy through the whole day, without the spike and crash.">Energy</button>
+        <button class="word" role="tab" aria-selected="false" data-d="A quiet, clear mind that can hold one thought at a time.">Clarity</button>
+        <button class="word" role="tab" aria-selected="false" data-d="Being fully in the room with the people and the work in front of you.">Presence</button>
+      </div>
+      <p class="word-desc" id="wordDesc" aria-live="polite">Steady energy through the whole day, without the spike and crash.</p>
+      <div class="ctas">
+        <a class="btn btn-gold" href="#path"><span class="chev">▶</span> Take the Discovery Assessment</a>
+        <a class="btn btn-ghost-light" href="#formulas"><span class="chev">▶</span> Shop Formulas</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main id="detail" hidden>
+  <div class="wrap">
+    <button class="back" id="back">◀ All formulas</button>
+    <div class="d-frame" id="dFrame"></div>
+    <div class="others"><h3>Explore the other formulas</h3><div class="grid6" id="others"></div></div>
+  </div>
+</main>
+
+<footer id="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" data-home><img src="logo.png" alt=""><span>Och<small style="color:oklch(97.5% .015 80 / .6)">Wellness Co.</small></span></a>
+        <p class="tagline">Four centuries of Mongolian and Tibetan herbal wisdom, formulated for modern wellness.</p>
+      </div>
+      <div><h4>Explore</h4><ul><li><a href="#story" data-home>Our Story</a></li><li><a href="#trust" data-home>The Science</a></li><li><a href="#goal" data-home>Mission</a></li></ul></div>
+      <div><h4>Shop</h4><ul><li><a href="#path" data-home>The Och Protocol</a></li><li><a href="#formulas" data-home>Shop Formulas</a></li><li><a href="#footer">Contact</a></li></ul></div>
+      <div>
+        <h4>Join the Circle</h4>
+        <p style="margin-bottom:14px">Seasonal notes on herbs, habits and new formulas.</p>
+        <form class="news" id="news"><label for="email" class="sr" style="position:absolute;left:-9999px">Email</label><input id="email" type="email" placeholder="Your email" required><button type="submit">Join</button></form>
+        <p class="news-msg" id="newsMsg"></p>
+      </div>
+    </div>
+    <div class="legal">
+      <p>These statements have not been evaluated by the Food &amp; Drug Administration. These products are not intended to diagnose, prevent, treat, or cure any disease.</p>
+      <p>© 2026 Och Wellness Co.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Cart" aria-hidden="true">
+  <div class="drawer-head"><h3>Your cart</h3><button class="x" id="closeCart" aria-label="Close cart">×</button></div>
+  <div class="items" id="items"></div>
+  <div class="drawer-foot">
+    <div class="sum"><span>Subtotal</span><span id="subtotal">$0</span></div>
+    <button class="btn btn-solid" id="checkout"><span class="chev">▶</span> Checkout</button>
+    <p>Checkout connects to your store at launch. Sample prices shown.</p>
+  </div>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const F=[
+ {id:"ground",el:"Earth",tib:"ས",tibR:"sa · earth",tag:"Stand Steady",name:"GROUND",line:"Root down when the day pulls you apart.",color:"oklch(70% .13 75)",cap:"oklch(80% .1 80)",
+  lead:"Stability for scattered days.",desc:"An earth-element formula for days that feel unanchored. Built on grounding roots used for centuries to settle digestion and steady the body.",ing:["Placeholder root","Placeholder bark","Placeholder seed"],price:48},
+ {id:"restore",el:"Water",tib:"ཆུ",tibR:"chu · water",tag:"Flow Again",name:"RESTORE",line:"Replenish what long weeks drain away.",color:"oklch(45% .08 220)",cap:"oklch(55% .07 215)",
+  lead:"Replenish and recover.",desc:"A water-element formula for recovery. Cooling herbs that support rest, hydration and the body's own repair.",ing:["Placeholder berry","Placeholder leaf","Placeholder flower"],price:48},
+ {id:"ignite",el:"Fire",tib:"མེ",tibR:"me · fire",tag:"Light the Furnace",name:"IGNITE",line:"Warm, steady energy without the crash.",color:"oklch(42% .16 25)",cap:"oklch(48% .15 28)",
+  lead:"Warmth that lasts all day.",desc:"A fire-element formula for metabolism and drive. Warming herbs that build energy slowly and keep it steady.",ing:["Placeholder ginger","Placeholder pepper","Placeholder resin"],price:52},
+ {id:"focus",el:"Wind",tib:"རླུང",tibR:"rlung · wind",tag:"Still the Wind",name:"FOCUS",line:"One clear thought at a time.",color:"oklch(48% .12 245)",cap:"oklch(58% .1 240)",
+  lead:"A clear, settled mind.",desc:"A wind-element formula. In Tibetan practice, rlung governs movement of the mind; this blend calms its restlessness so attention can hold.",ing:["Placeholder nutmeg","Placeholder clove","Placeholder aloewood"],price:52},
+ {id:"calm",el:"Space",tib:"ནམ་མཁའ",tibR:"namkha · space",tag:"Make Room",name:"CALM",line:"Ease pressure and find room to breathe.",color:"oklch(30% .12 262)",cap:"oklch(90% .02 80)",
+  lead:"Room to breathe under pressure.",desc:"A space-element formula for high-pressure seasons. Gentle herbs that soften tension so you can respond instead of react.",ing:["Placeholder saffron","Placeholder lotus","Placeholder myrobalan"],price:48},
+ {id:"balance",el:"All five",tib:"སྨན",tibR:"men · medicine",tag:"Five in One",name:"BALANCE",line:"The daily foundation for all five elements.",color:"oklch(18% .02 30)",cap:"oklch(78% .13 80)",
+  lead:"The daily foundation.",desc:"Our signature formula brings all five elements into proportion. A daily base that the other five formulas build on.",ing:["Placeholder triphala","Placeholder myrobalan","Placeholder saffron","Placeholder licorice"],price:58}
+];
+
+// apothecary jar svg with seeded capsules
+function jar(f,uid){
+  let s=f.id.length*97+f.name.charCodeAt(0);const r=()=>(s=(s*9301+49297)%233280)/233280;
+  let caps="";
+  for(let row=0;row<9;row++)for(let c=0;c<5;c++){
+    const x=24+c*14+(row%2?7:0)+(r()-.5)*4,y=166-row*12+(r()-.5)*3,a=(r()-.5)*90;
+    if(x>94)continue;
+    caps+=`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${a.toFixed(0)})"><rect x="-6.5" y="-3" width="13" height="6" rx="3" fill="${f.cap}"/><rect x="-6.5" y="-3" width="6.5" height="6" rx="3" fill="oklch(100% 0 0 / .35)"/></g>`;
+  }
+  return `<svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${f.name} jar">
+  <defs><clipPath id="c${uid}"><rect x="14" y="44" width="92" height="148" rx="14"/></clipPath>
+  <linearGradient id="g${uid}" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".25" stop-color="#fff" stop-opacity=".08"/><stop offset=".8" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".3"/></linearGradient></defs>
+  <rect x="14" y="44" width="92" height="148" rx="14" fill="oklch(92% .01 80 / .55)"/>
+  <g clip-path="url(#c${uid})">${caps}</g>
+  <rect x="14" y="44" width="92" height="148" rx="14" fill="url(#g${uid})" stroke="oklch(60% .01 80 / .6)"/>
+  <rect x="20" y="96" width="80" height="50" fill="oklch(97.5% .015 80)" opacity=".94"/>
+  <text x="60" y="114" text-anchor="middle" font-family="Cormorant Garamond,serif" font-weight="700" font-size="12" letter-spacing="2" fill="oklch(18% .02 30)">${f.name}</text>
+  <text x="60" y="126" text-anchor="middle" font-family="Oswald,sans-serif" font-size="5.5" letter-spacing="1" fill="${f.color}">${f.el.toUpperCase()} ELEMENT</text>
+  <rect x="28" y="133" width="64" height="7" fill="${f.color}"/>
+  <text x="60" y="138.5" text-anchor="middle" font-family="Oswald,sans-serif" font-size="4.4" letter-spacing="1.2" fill="oklch(97.5% .015 80)">OCH WELLNESS CO.</text>
+  <rect x="18" y="8" width="84" height="36" rx="5" fill="oklch(78% .01 80)"/>
+  <rect x="18" y="8" width="84" height="36" rx="5" fill="url(#g${uid})"/>
+  ${[14,20,26,32,38].map(y=>`<line x1="20" x2="100" y1="${y}" y2="${y}" stroke="oklch(60% .01 80 / .5)" stroke-width=".6"/>`).join("")}
+</svg>`;
+}
+
+function card(f,i){
+  return `<button class="f-card" data-id="${f.id}" style="--el:${f.color}" aria-label="${f.name}, ${f.el} element. More detail">
+    <div class="f-top"><div class="f-rings"></div><span class="f-letter" aria-hidden="true">${f.name[0]}</span>
+      <span class="f-no" aria-hidden="true"><b>No.${String(i+1).padStart(2,"0")}</b><i>5-Element Series</i></span>
+      <div class="f-jar">${jar(f,"c"+i)}</div></div>
+    <div class="f-body"><span class="f-tag">${f.tag}</span><span class="f-name">${f.name}</span><span class="f-tib" lang="bo">${f.tib}</span>
+      <span class="f-line">${f.line}</span><span class="f-more">▸ More detail</span></div>
+  </button>`;
+}
+const grid=document.getElementById("grid");
+grid.innerHTML=F.map(card).join("");
+
+// marquee
+const mq=["Earth","Water","Fire","Wind","Space","Modern Apothecary","Ancient Roots","Lab tested"];
+document.getElementById("marquee").innerHTML=[...mq,...mq].map(t=>`<span>${t}</span>`).join("");
+
+// detail view
+const home=document.getElementById("home"),detail=document.getElementById("detail");
+function showDetail(id){
+  const i=F.findIndex(f=>f.id===id);if(i<0)return showHome();
+  const f=F[i];let q=1;
+  document.getElementById("dFrame").innerHTML=`
+   <div class="d-copy">
+     <span class="d-tag">${f.tag} <span class="ph">Placeholder</span></span>
+     <h1 class="d-name">${f.name}</h1>
+     <span class="d-tib" lang="bo">${f.tib} <small style="font-family:var(--label);font-size:12px;letter-spacing:.14em;color:var(--ink-soft)">${f.tibR.toUpperCase()}</small></span>
+     <p class="d-lead">${f.lead}</p>
+     <p class="d-desc">${f.desc}</p>
+     <dl class="d-facts" style="margin:0">
+       <div><dt>Element</dt><dd>${f.el}</dd></div>
+       <div><dt>Serving</dt><dd>3 capsules daily</dd></div>
+       <div><dt>Per bottle</dt><dd>90 capsules · 30 days</dd></div>
+       <div><dt>Testing</dt><dd>Third-party lab</dd></div>
+     </dl>
+     <div><p class="eyebrow" style="margin-bottom:10px">Key herbs</p><ul class="d-ing">${f.ing.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+     <div class="buy">
+       <span class="price">$${f.price}</span>
+       <div class="qty"><button id="qm" aria-label="Decrease quantity">−</button><output id="qv">1</output><button id="qp" aria-label="Increase quantity">+</button></div>
+       <button class="btn btn-solid" id="addBtn"><span class="chev">▶</span> Add to cart</button>
+     </div>
+     <p style="font-size:12px;color:var(--ink-soft)">Price, serving and herbs are samples. Replace before launch.</p>
+   </div>
+   <div class="d-visual" style="--el:${f.color}"><div class="f-rings"></div><span class="f-letter" aria-hidden="true">${f.name[0]}</span>
+     <span class="f-no" aria-hidden="true"><b>No.${String(i+1).padStart(2,"0")}</b><i>Och 5-Element Series</i></span>
+     <div class="f-jar">${jar(f,"d"+i)}</div></div>`;
+  document.getElementById("others").innerHTML=F.map((o,j)=>j===i?"":card(o,j)).join("");
+  const qv=document.getElementById("qv");
+  document.getElementById("qm").onclick=()=>{q=Math.max(1,q-1);qv.textContent=q};
+  document.getElementById("qp").onclick=()=>{q=Math.min(9,q+1);qv.textContent=q};
+  document.getElementById("addBtn").onclick=()=>addToCart(f.id,q);
+  home.hidden=true;detail.hidden=false;window.scrollTo({top:0,behavior:"instant"});
+}
+function showHome(target){
+  detail.hidden=true;home.hidden=false;
+  if(target){const el=document.getElementById(target);if(el)el.scrollIntoView();}
+}
+function route(){
+  const h=location.hash.slice(1);
+  if(h.startsWith("formula-"))showDetail(h.slice(8));
+  else if(!detail.hidden)showHome(h||"top");
+}
+window.addEventListener("hashchange",route);
+document.addEventListener("click",e=>{
+  const c=e.target.closest(".f-card");
+  if(c){location.hash="formula-"+c.dataset.id;return}
+  const a=e.target.closest("a[data-home]");
+  if(a){links.classList.remove("open");menuBtn.setAttribute("aria-expanded","false")}
+});
+document.getElementById("back").onclick=()=>{location.hash="formulas"};
+document.getElementById("viewAll").onclick=e=>{e.preventDefault();location.hash="formula-balance"};
+
+// mobile menu
+const links=document.getElementById("links"),menuBtn=document.getElementById("menuBtn");
+menuBtn.onclick=()=>{const o=links.classList.toggle("open");menuBtn.setAttribute("aria-expanded",o)};
+
+// cart
+let cart={};
+try{cart=JSON.parse(localStorage.getItem("och-cart")||"{}")||{}}catch(e){cart={}}
+const drawer=document.getElementById("drawer"),scrim=document.getElementById("scrim");
+function save(){try{localStorage.setItem("och-cart",JSON.stringify(cart))}catch(e){}}
+function renderCart(){
+  const ids=Object.keys(cart).filter(k=>cart[k]>0&&F.some(f=>f.id===k));
+  const n=ids.reduce((s,k)=>s+cart[k],0);
+  document.getElementById("cartCount").textContent=n;
+  const box=document.getElementById("items");
+  if(!ids.length){box.innerHTML=`<div class="empty"><b>Your cart is empty</b><p>Start with Balance, our daily foundation.</p><button class="btn btn-line" id="emptyShop"><span class="chev">▶</span> Shop formulas</button></div>`;
+    document.getElementById("emptyShop").onclick=()=>{closeCart();location.hash="formulas"};}
+  else box.innerHTML=ids.map(k=>{const f=F.find(x=>x.id===k);return `<div class="item">${jar(f,"k"+k)}<div><b>${f.name}</b><small>${f.el} element · $${f.price} each</small></div>
+    <div class="qty"><button data-dec="${k}" aria-label="Decrease ${f.name}">−</button><output>${cart[k]}</output><button data-inc="${k}" aria-label="Increase ${f.name}">+</button></div></div>`}).join("");
+  document.getElementById("subtotal").textContent="$"+ids.reduce((s,k)=>s+cart[k]*F.find(f=>f.id===k).price,0);
+}
+document.getElementById("items").addEventListener("click",e=>{
+  const d=e.target.dataset;
+  if(d.inc){cart[d.inc]=Math.min(9,cart[d.inc]+1)}else if(d.dec){cart[d.dec]--;if(cart[d.dec]<=0)delete cart[d.dec]}else return;
+  save();renderCart();
+});
+function addToCart(id,q){cart[id]=Math.min(9,(cart[id]||0)+q);save();renderCart();toast(`Added ${q} × ${F.find(f=>f.id===id).name} to your cart`);}
+function openCart(){drawer.classList.add("open");scrim.classList.add("open");drawer.setAttribute("aria-hidden","false");document.getElementById("closeCart").focus()}
+function closeCart(){drawer.classList.remove("open");scrim.classList.remove("open");drawer.setAttribute("aria-hidden","true")}
+document.getElementById("cartBtn").onclick=openCart;
+document.getElementById("closeCart").onclick=closeCart;
+scrim.onclick=closeCart;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeCart()});
+document.getElementById("checkout").onclick=()=>toast("Checkout will connect to your store at launch.");
+let tt;function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),2400)}
+
+// goal words
+const wd=document.getElementById("wordDesc");
+document.querySelectorAll(".word").forEach(w=>{const act=()=>{document.querySelectorAll(".word").forEach(o=>{o.classList.toggle("on",o===w);o.setAttribute("aria-selected",o===w)});wd.textContent=w.dataset.d};w.addEventListener("mouseenter",act);w.addEventListener("click",act)});
+
+// newsletter
+document.getElementById("news").addEventListener("submit",e=>{e.preventDefault();document.getElementById("newsMsg").textContent="Preview only. At launch this adds the email to your newsletter list.";});
+
+// subtle parallax on story image
+const px=document.getElementById("parallax");
+if(!matchMedia("(prefers-reduced-motion: reduce)").matches){
+  addEventListener("scroll",()=>{const r=px.parentElement.getBoundingClientRect();const p=(r.top+r.height/2-innerHeight/2)/innerHeight;px.style.transform=`translateY(${(-7+p*-6).toFixed(2)}%)`},{passive:true});
+}
+
+renderCart();route();
+</script>
+</body>
+</html>
